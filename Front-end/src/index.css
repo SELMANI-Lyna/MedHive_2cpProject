@@ -1,0 +1,30 @@
+.button{
+  background-color: #74a694;
+  padding: 1em 1em;
+  border: none;
+  color: #f0f0f0;
+  border-radius: 1000px;
+  font-family: "segoe ui", sans-serif;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button:after {
+  content: '';
+  position: absolute;
+  height: 107%;
+  width: 102%;
+  border-radius: 1000px;
+  background-image: linear-gradient(to buttonright, #08D37E, #BBBBBB);
+  z-index: -1;
+}
+button:hover{
+  z-index: 0;
+  box-shadow: 40px 0 100px #08D37E, -40px 0 100px #08D37E;
+}
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
