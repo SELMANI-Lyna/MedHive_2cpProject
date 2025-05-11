@@ -15,21 +15,21 @@ const Team: React.FC = () => {
       role: "Admin",
       email: "l_selmani@estin.dz",
       image:
-        "https://i.pinimg.com/736x/e4/39/54/e4395494e82f2706e15d2c855f3c0e60.jpg",
+        "https://i.pinimg.com/736x/77/8b/b4/778bb4ab74245992b48926e7770d3a14.jpg",
     },
     {
       name: "Bensallah Khadidja",
       role: "Admin",
       email: "k_bensallah@estin.dz",
       image:
-        "https://i.pinimg.com/736x/ff/81/70/ff8170acb79b057bdf194dada66c0767.jpg",
+        "https://i.pinimg.com/736x/c3/09/ff/c309ff391488a8f1ef0a488b2e61c642.jpg",
     },
     {
       name: "Maakni Ines",
       role: "Admin",
       email: "i_maakni@estin.dz",
       image:
-        "https://i.pinimg.com/736x/bf/67/42/bf67420cfb310ef6d29c276a56abd39d.jpg",
+        "https://i.pinimg.com/736x/d0/50/72/d050724637a2633b42c5c0b7856a3d95.jpg",
     },
     {
       name: "Bennouar Yassmine",
@@ -76,3 +76,4 @@ const Team: React.FC = () => {
 };
 
 export default Team;
+
