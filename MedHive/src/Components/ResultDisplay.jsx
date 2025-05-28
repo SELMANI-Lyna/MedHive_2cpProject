@@ -30,8 +30,8 @@ function ResultDisplay({ results, hasSearched ,fetchProduits}) {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {results.map((result, index) => (
-            <Link key={index} to={`/produits/${result.id}`} className="block hover:shadow-lg transition-shadow duration-300">
-              <div className="bg-white border border-gray-200 rounded-lg overflow-hidden h-full">
+          // <Link key={index} to={`/produits/${result.id}`} className="block hover:shadow-lg transition-shadow duration-300">
+              <div key={index} className="min-w-64 max-w-64 bg-white border border-gray-200 rounded-lg overflow-hidden h-full ">
                 <PostHome
                   imageSrc={result.imageSrc}
                   price={result.price}
@@ -40,10 +40,11 @@ function ResultDisplay({ results, hasSearched ,fetchProduits}) {
                   name={result.name}
                   contact={result.contact}
                   id={result.id}
-                  onDelete={() => fetchProduits()} 
+                  onDelete={() => fetchProduits()}
+                  vendeur={result.vendeur?.id}
                 />
               </div>
-            </Link>
+            // </Link>
           ))}
         </div>
       )}
