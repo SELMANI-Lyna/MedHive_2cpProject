@@ -1,15 +1,20 @@
-// src/App.tsx
-import PharmacistButton from "./Pages/PharmacistButton"; // Fix path
-import AdminDashboard from "./Pages/AdminDashboard"; // Fix path
 import { Route, Routes } from "react-router-dom";
+import ContactPage from "./Pages/SellSomething";
+import PharmacistsButton from "./Pages/PharmacistButton";
+import RepportedMesseges from "./Pages/RepportedMesseges";
 
 function App() {
   return (
-    <div className="h-screen">
+    <div style={{ minHeight: "100vh" }}>
       <Routes>
-        <Route path="/" element={<AdminDashboard />} />
-        <Route path="/pharmacists" element={<PharmacistButton />} />
-        {/* Add more routes as needed */}
+        {/* Public routes */}
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="pharmacists" element={<PharmacistsButton />} />
+          <Route path="messages" element={<RepportedMesseges />} />
+          
+        
+        {/* Admin routes */}
+        
       </Routes>
     </div>
   );

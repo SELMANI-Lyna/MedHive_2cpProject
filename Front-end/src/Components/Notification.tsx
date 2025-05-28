@@ -1,45 +1,46 @@
 import { useState, useEffect, useRef } from "react";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { FaUserMd, FaFlag } from "react-icons/fa";
+import axios from "axios";
 
-interface Notification {
-  message: string;
-  type: "pharmacist_login" | "post_report";
-  timestamp: string;
-}
-
-// Default sample notifications
-const defaultNotifications: Notification[] = [
-  {
-    message: "Dr. Smith has logged in",
-    type: "pharmacist_login",
-    timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), // 15 minutes ago
-  },
-  {
-    message: "Post #1242 was reported",
-    type: "post_report",
-    timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(), // 1 hour ago
-  },
-];
-
-interface NotificationButtonProps {
-  notifications?: Notification[];
+interface BackendNotification {
+  _id: string;
+  type: string;
+  dateCreation: string;
+  message?: { contenu: string };
+  produit?: { nom: string };
+  pharmacien?: { nomPharmacie: string; email: string };
+  signalePar?: { email: string };
 }
 
 const timeAgo = (timestamp: string) => {
   const now = new Date();
-  const notificationTime = new Date(timestamp);
-  const difference = Math.floor((now.getTime() - notificationTime.getTime()) / 1000);
-  
-  if (difference < 60) return `${difference} seconds ago`;
-  if (difference < 3600) return `${Math.floor(difference / 60)} minutes ago`;
-  if (difference < 86400) return `${Math.floor(difference / 3600)} hours ago`;
-  return `${Math.floor(difference / 86400)} days ago`;
+  const then = new Date(timestamp);
+  const seconds = Math.floor((now.getTime() - then.getTime()) / 1000);
+  if (seconds < 60) return `${seconds} sec ago`;
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} hr ago`;
+  return `${Math.floor(seconds / 86400)} days ago`;
 };
 
-function NotificationButton({ notifications = defaultNotifications }: NotificationButtonProps) {
+function NotificationButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const [notifications, setNotifications] = useState<BackendNotification[]>([]);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await axios.get<BackendNotification[]>("/api/utilisateurs/admin/notifications", {
+          withCredentials: true,
+        });
+        setNotifications(res.data);
+      } catch (err) {
+        console.error("Erreur chargement notifications", err);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,53 +48,59 @@ function NotificationButton({ notifications = defaultNotifications }: Notificati
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div
       style={{
-        position: "absolute", // Place on the same line as other elements
-        top: "15px", // Align at the top of the pagepcpx
-        right: "280px", // Align to the far-right side
-        display: "flex", // Ensure it's properly aligned with other items
-        alignItems: "center", // Center the button vertically
+        position: "absolute",
+        top: "15px",
+        right: "280px",
+        display: "flex",
+        alignItems: "center",
         zIndex: 1000,
-        
+      }}
+      onClick={(e) => {
+        // Prevent any accidental navigation
+        e.preventDefault();
+        e.stopPropagation();
       }}
     >
-      <button
-        onClick={() => setIsOpen(!isOpen)}
+      {/* Use a div instead of button to avoid form/submit issues */}
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsOpen((prev) => !prev);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") setIsOpen((prev) => !prev);
+        }}
         style={{
           backgroundColor: "transparent",
-          border: "none",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           cursor: "pointer",
           transition: "transform 0.3s ease-in-out",
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.2)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
         <BiMessageSquareDetail
           style={{
             color: "black",
             height: "38px",
-            width: "38px", // Fixed size for consistent alignment
+            width: "38px",
           }}
         />
-      </button>
+      </div>
 
-      {/* Notification Panel */}
+      {/* Dropdown Panel */}
       {isOpen && (
         <div
           ref={panelRef}
@@ -109,45 +116,44 @@ function NotificationButton({ notifications = defaultNotifications }: Notificati
             zIndex: 1000,
           }}
         >
-          {/* Notification List */}
           <ul style={{ listStyleType: "none", padding: 0 }}>
-            {notifications.map((notif, index) => (
+            {notifications.map((notif) => (
               <li
-                key={index}
+                key={notif._id}
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
-                  fontSize: "19px",
-                  padding: "5px 0",
+                  fontSize: "16px",
+                  padding: "6px 0",
                 }}
               >
-                {/* Icon Based on Notification Type */}
                 {notif.type === "pharmacist_login" ? (
                   <FaUserMd style={{ color: "black" }} />
                 ) : (
                   <FaFlag style={{ color: "black" }} />
                 )}
-                {/* Notification Message */}
-                <span>{notif.message}</span>
-                {/* Timestamp */}
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "gray",
-                    marginLeft: "auto",
-                  }}
-                >
-                  {timeAgo(notif.timestamp)}
-                </p>
+                <div>
+                  <span>
+                    {notif.type === "post_report"
+                      ? `Signalé par ${notif.signalePar?.email || "Inconnu"}`
+                      : `Connexion: ${notif.pharmacien?.email || "Inconnu"}`}
+                  </span>
+                  <br />
+                  <span style={{ fontSize: "12px", color: "gray" }}>
+                    {timeAgo(notif.dateCreation)}
+                  </span>
+                </div>
               </li>
             ))}
+            {notifications.length === 0 && (
+              <li style={{ fontSize: "14px", color: "gray" }}>Aucune notification</li>
+            )}
           </ul>
         </div>
       )}
     </div>
   );
 }
-
 
 export default NotificationButton;
