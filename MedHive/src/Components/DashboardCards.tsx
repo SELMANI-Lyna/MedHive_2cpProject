@@ -1,25 +1,57 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// 📌 Types
+type UtilisateurByRole = {
+  _id: string;
+  count: number;
+};
+
+type DashboardStats = {
+  totalUtilisateurs: number;
+  utilisateursByRole: UtilisateurByRole[];
+  totalProduits: number;
+  totalPharmacies: number;
+};
+
 const DashboardCards = () => {
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    pharmacists: 0,
-    totalMedicaments: 0,
+  // 📌 Typed state
+  const [stats, setStats] = useState<DashboardStats>({
+    totalUtilisateurs: 0,
+    utilisateursByRole: [],
+    totalProduits: 0,
+    totalPharmacies: 0,
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/admin/stats"
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setError("Authentication required");
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get<DashboardStats>(
+          "http://localhost:5000/api/utilisateur/admin/dashboard-stats",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        setStats(response.data.data);
-      } catch (error) {
+
+        setStats(response.data);
+      } catch (error: any) {
         console.error("Error fetching stats:", error);
-        setError("Unable to fetch dashboard data.");
+        setError(
+          error.response?.data?.message || "Unable to fetch dashboard data."
+        );
       } finally {
         setLoading(false);
       }
@@ -27,6 +59,14 @@ const DashboardCards = () => {
 
     fetchStats();
   }, []);
+
+  // 📌 Get pharmacist count
+  const getPharmacistCount = () => {
+    const pharmacistData = stats.utilisateursByRole.find(
+      (role) => role._id === "Pharmacien"
+    );
+    return pharmacistData ? pharmacistData.count : 0;
+  };
 
   if (loading) {
     return <div className="p-4">Chargement du dashboard...</div>;
@@ -42,7 +82,7 @@ const DashboardCards = () => {
         <p className="text-[#1FAE94] text-base">Total Users</p>
         <div className="flex items-center justify-between mt-1">
           <p className="text-xl text-[#005B4A] font-semibold">
-            {stats.totalUsers}
+            {stats.totalUtilisateurs}
           </p>
           <img src="/Images/UserIcon.svg" alt="User Icon" className="w-6 h-6" />
         </div>
@@ -52,7 +92,7 @@ const DashboardCards = () => {
         <p className="text-[#1FAE94] text-base">Total Pharmacists</p>
         <div className="flex items-center justify-between mt-1">
           <p className="text-xl text-[#005B4A] font-semibold">
-            {stats.pharmacists}
+            {getPharmacistCount()}
           </p>
           <img
             src="/Images/PharmacistIcon.svg"
@@ -66,7 +106,7 @@ const DashboardCards = () => {
         <p className="text-[#1FAE94] text-base">Total Medicaments</p>
         <div className="flex items-center justify-between mt-1">
           <p className="text-xl text-[#005B4A] font-semibold">
-            {stats.totalMedicaments}
+            {stats.totalProduits}
           </p>
           <img src="/Images/PostIcon.svg" alt="Post Icon" className="w-6 h-6" />
         </div>

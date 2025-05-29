@@ -23,7 +23,8 @@ function SignUpPh() {
   const [pharmacyName, setPharmacyName] = useState('');  // Nom de la pharmacie spécifique pour Pharmacien
   const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-
+  
+  
   const handleSignUpPh = async (event) => {
     event.preventDefault();
   

@@ -68,7 +68,7 @@ const ConditionsUtilisation = () => {
         </p>
       </section>
 
-      <section className="bg-yellow-100 p-4 border border-yellow-400 rounded mt-8">
+      <section className="bg-yellow-100 p-4 border border-yellow-400 rounded mt-8 dark:text-black">
         <h2 className="text-lg font-semibold mb-2">⚠️ Avertissement</h2>
         <p>
           La vente de médicaments est soumise à des réglementations strictes. Certains produits nécessitent une ordonnance médicale. <strong>MedHive</strong> n’effectue aucune vente directe et ne saurait être tenu responsable des transactions réalisées en dehors de la plateforme. Les utilisateurs sont seuls responsables du respect des lois en vigueur.

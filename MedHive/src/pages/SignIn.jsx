@@ -226,7 +226,7 @@ function SignIn() {
   };
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100"> 
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-white"> 
       <div className="max-w-4xl mx-auto my-20 flex flex-col md:flex-row gap-20 p-4 md:p-8 bg-white rounded-2xl shadow-md w-full">
 
         <div className="flex-1 basis-1/2 flex flex-col justify-center items-center">

@@ -3,7 +3,12 @@ import SearchBar from "./SearchBar";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Header({ onSearch }) {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user ? user._id : null;
+
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -20,9 +25,9 @@ export default function Header({ onSearch }) {
   const hoverClass = "hover:bg-gray-200";
 
   return (
-    <header className="bg-white shadow-md p-4">
+    <header className=" dark:bg-black shadow-md p-4">
       {/* Conteneur principal avec trois sections */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between  dark:bg-black">
         {/* Section gauche - Logo */}
         <div className="flex items-center gap-2 w-1/4">
           <i className="fa-solid fa-prescription-bottle-medical text-green-600 text-2xl mr-2"></i>
@@ -30,7 +35,7 @@ export default function Header({ onSearch }) {
         </div>
 
         {/* Section centrale - Barre de recherche */}
-        <div className="flex justify-center w-2/4">
+        <div className="flex justify-center w-2/4  dark:text-black">
           <SearchBar onSearch={onSearch} />
         </div>
 
@@ -40,7 +45,7 @@ export default function Header({ onSearch }) {
             onClick={handleChat} 
             className={`${baseBtnClass} ${hoverClass}`}
           >
-            <i className="fa-solid fa-robot text-blue-500"></i> Chat bot
+            <i className="fa-solid fa-robot text-blue-500  dark:text-black"></i> Chat bot
           </button>
 
           {!isAuthenticated ? (
@@ -61,10 +66,10 @@ export default function Header({ onSearch }) {
           ) : (
             <>
               <button
-                onClick={() => navigate('/ProfilePage')}
+                onClick={() => navigate(`/ProfilePage/${userId}`)}
                 className={`${baseBtnClass} ${hoverClass}`}
               >
-                <i className="fa-solid fa-user-circle text-green-500"></i> Profile
+                <i className="fa-solid fa-user-circle text-green-500   dark:text-gray-900"></i> Profile
               </button>
               <button
                 onClick={logout}

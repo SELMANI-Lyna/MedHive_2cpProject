@@ -49,14 +49,15 @@ const Team: React.FC = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Notre Équipe</h2>
+        <h2 className="text-2xl font-semibold">Team</h2>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {teamMembers.map((member, index) => (
           <div
             key={index}
-            className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 hover:shadow-gray-500/50"
+            className="bg-white p-4 rounded-xl shadow-md transition transform hover:scale-105 active:scale-95 active:shadow-inner"
+            style={{ boxShadow: "0 6px 20px 6px rgba(107, 114, 128, 0.4)" }}
           >
             <img
               src={member.image}
@@ -76,4 +77,3 @@ const Team: React.FC = () => {
 };
 
 export default Team;
-

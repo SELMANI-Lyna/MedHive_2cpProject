@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 import medoc from "../images/medicine.webp"
+import { FaTag } from "react-icons/fa";
 
 function Home() {
-  console.log(`${localStorage.getItem('user')}`);
+  // console.log(`${localStorage.getItem('user')}`);
+  // Get the user object from local storage
   const [results, setResults] = useState([]);
   const [allResults, setAllResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -124,7 +126,7 @@ fetchAllProducts();
       setLoading(false);
     }
   };
-  console.log(localStorage.getItem('token'));
+  
   const handleFindNearestPharmacy = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -237,9 +239,14 @@ fetchAllProducts();
         </div>
 
         <div className="flex-1 basis-2/3 overflow-hidden">
-          <button onClick={handleSell} className="px-5 py-1 mb-3 font-bold rounded focus:outline-none disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-500 hover:bg-green-700 text-white">
-            Sell Something
+          <div className="flex items-center justify-between mb-3">
+          <button onClick={handleSell} className="px-15 py-1 font-bold rounded focus:outline-none disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-400 hover:bg-green-700 text-white flex flex-row items-center gap-2">
+            <FaTag /> Sell Something
           </button>
+          <p className="text-md text-gray-500 mx-5">
+            Turn unused items into cash today! 💰
+          </p>
+        </div>
           
         
           {/* Show loading indicator if we're loading results */}
@@ -258,24 +265,14 @@ fetchAllProducts();
           
           {/* Display search results only if a search has been performed */}
           {hasSearched && !loading && !error && (
-            <ResultDisplay results={results} hasSearched={hasSearched} fetchProduits={fetchProduits}/>
+            <ResultDisplay divId="scrollable1" results={results} hasSearched={hasSearched} fetchProduits={fetchProduits}/>
           )}
 
           <div className="relative my-4">
             <h1 className="font-bold text-xl">Popular Products</h1>
              {!loading && !error && (
-             <ResultDisplay results={allResults} fetchProduits={fetchProduits}/>
+             <ResultDisplay divId="scrollable2" results={allResults} fetchProduits={fetchProduits}/>
              )}
-              
-            
-
-            {/* Flèche droite avec meilleur style et positionnement */}
-            <button
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-70 hover:bg-opacity-90 rounded-full p-2 shadow-md transition-all duration-300 focus:outline-none"
-              onClick={() => (document.getElementById('scrollableDiv').scrollLeft += 200)}
-            >
-              <i className="fa-solid fa-chevron-right text-green-600"></i>
-            </button>
           </div>
         </div>
       </div>
