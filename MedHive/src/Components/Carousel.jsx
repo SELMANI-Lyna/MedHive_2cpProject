@@ -5,8 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Img1 from "../images/medoc.png";
 import Img2 from "../images/mapp.png";
 import Img3 from "../images/bot.png";
-import { useAuth } from '../hooks/AuthContext';
-import { useNavigate } from 'react-router-dom';
+// import { useAuth } from '../hooks/AuthContext';
+// import { useNavigate } from 'react-router-dom';
 const Carousel = () => {
   // Référence pour accéder aux méthodes du carrousel
   const sliderRef = useRef(null);
@@ -53,28 +53,18 @@ const Carousel = () => {
       <div className="w-3 h-3 bg-white opacity-50 rounded-full transition-all duration-300 hover:opacity-100 hover:scale-125 hover:bg-green-500"></div>
     )
   };
-  const {isAuthenticated} =useAuth();
-  const navigate =useNavigate();
-  const handleChat = () => {
-    if (isAuthenticated) {
-      navigate('/chatbot');
-    } else {
-      navigate('/loginchatbot');
-      alert('You need to be signed in to perform this action');
-    }
-  };
-  const handleFindNearestPharmacy = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        const bingUrl = `https://www.bing.com/maps?q=pharmacies&cp=${latitude}~${longitude}&lvl=14`;
-        window.open(bingUrl, "_blank");
-      },
-      (error) => {
-        alert("Unable to retrieve your location.");
-      }
-    );
-  };
+  // const {isAuthenticated} =useAuth();
+  // const navigate =useNavigate();
+  // const handleChat = () => {
+  //   if (isAuthenticated) {
+  //     navigate('/chatbot');
+  //   } else {
+  //     navigate('/loginchatbot');
+  //     alert('You need to be signed in to perform this action');
+  //   }
+  // };
+  
+  
   return (
     <div className="w-full md:h-[40vh] relative bg-gray-50 mb-8">
       
@@ -98,7 +88,7 @@ const Carousel = () => {
             <div className="md:w-1/2 text-center md:text-left">
               <h2 className="text-4xl font-bold text-blue-800 mb-4">Find Nearby Pharmacies</h2>
               <p className="text-lg text-gray-700 mb-6">Use your current location or enter an address to locate the nearest pharmacy that has your medicine in stock.</p>
-              <button onClick={handleFindNearestPharmacy} className="bg-blue-600 text-white px-12 py-1 rounded-full">Try Now</button>
+              {/* <button onClick={handleFindNearestPharmacy} className="bg-blue-600 text-white px-12 py-1 rounded-full">Try Now</button> */}
             </div>
             <div className="md:w-1/2 flex justify-center">
               <img src={Img2} alt="Location Search" className="max-h-64 object-contain" />
@@ -112,7 +102,7 @@ const Carousel = () => {
             <div className="md:w-1/2 text-center md:text-left">
               <h2 className="text-4xl font-bold text-yellow-800 mb-4">Need Help?</h2>
               <p className="text-lg text-gray-700 mb-6">Chat with our assistant bot for any issues you face during your search or use of Medhive. We're here to support you 24/7!</p>
-              <button onClick={handleChat} className="bg-yellow-600 text-white px-12 py-1 rounded-full">Chat Now</button>
+              {/* <button onClick={handleChat} className="bg-yellow-600 text-white px-12 py-1 rounded-full">Chat Now</button> */}
             </div>
             <div className="md:w-1/2 flex justify-center">
               <img src={Img3} alt="Chat Bot Help" className="max-h-64 object-contain" />
@@ -124,18 +114,18 @@ const Carousel = () => {
       {/* Boutons de navigation sur les côtés */}
       <button 
         onClick={goToPrev} 
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 w-10 h-10 rounded-full bg-transparent bg-opacity-60 hover:bg-opacity-90 shadow-md flex items-center justify-center transition-all duration-300 z-10"
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 w-10 h-10 rounded-full bg-transparent bg-opacity-60 hover:bg-opacity-90  flex items-center justify-center transition-all duration-300 z-10"
         aria-label="Previous slide"
       >
-        <i className="fa-solid fa-chevron-left text-green-700"></i>
+        <i className="fa-solid fa-chevron-left text-transparent"></i>
       </button>
       
       <button 
         onClick={goToNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 w-10 h-10 rounded-full bg-transparent bg-opacity-60 hover:bg-opacity-90 shadow-md flex items-center justify-center transition-all duration-300 z-10"
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 w-10 h-10 rounded-full bg-transparent bg-opacity-60 hover:bg-opacity-90 flex items-center justify-center transition-all duration-300 z-10"
         aria-label="Next slide"
       >
-        <i className="fa-solid fa-chevron-right text-green-700"></i>
+        <i className="fa-solid fa-chevron-right text-transparent"></i>
       </button>
 
       {/* Zones cliquables pour navigation latérale */}

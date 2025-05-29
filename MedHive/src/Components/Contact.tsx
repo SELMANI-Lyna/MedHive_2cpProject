@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PhoneInput from "./phonenumber";
+import PhoneInput from "./phonenumber2";
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 

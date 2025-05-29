@@ -5,9 +5,9 @@ import ContactForm from "../Components/Contact";
 function ContactPage() {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <ContactForm />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -3,7 +3,12 @@ import SearchBar from "./SearchBar";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Header({ onSearch }) {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user ? user._id : null;
+
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -61,7 +66,7 @@ export default function Header({ onSearch }) {
           ) : (
             <>
               <button
-                onClick={() => navigate('/ProfilePage')}
+                onClick={() => navigate(`/ProfilePage/${userId}`)}
                 className={`${baseBtnClass} ${hoverClass}`}
               >
                 <i className="fa-solid fa-user-circle text-green-500"></i> Profile

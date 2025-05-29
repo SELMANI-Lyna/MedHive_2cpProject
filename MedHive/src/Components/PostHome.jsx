@@ -6,7 +6,7 @@ function PostHome({ imageSrc, product, price, description, id, onDelete, vendeur
   const [showDetail, setShowDetail] = useState(false);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  
+  const adress ="Alger centre"
   // Pour la description tronquée
   
   const toggleDetail = (e) => {
@@ -129,6 +129,7 @@ function PostHome({ imageSrc, product, price, description, id, onDelete, vendeur
             <p className="whitespace-pre-wrap line-clamp-2">{description}</p>
             {description.length > 80 && (
               <span className="text-gray-500 text-sm">...</span>)}
+            <p className="whitespace-pre-wrap line-clamp-2">{adress}</p>
           </div>
           
           <div className="flex justify-end items-center gap-2 mt-2">
@@ -203,6 +204,7 @@ function PostHome({ imageSrc, product, price, description, id, onDelete, vendeur
               {/* Description complète dans la modal */}
               <div className="text-gray-700 mb-6">
                 <p className="whitespace-pre-wrap">{description}</p>
+                <p className="whitespace-pre-wrap">{adress}</p>
               </div>
               
               

@@ -3,12 +3,13 @@ import {Routes, Route} from 'react-router-dom'
 import SignUp from './pages/SignUp'
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
-import Footer from './Components/Footer'
+import Footer from './Components/Footerco'
 import ValidationPh from './pages/ValidationPh'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
 import TermsOfUse from './pages/TermsOfUse'
 import AboutUs from './pages/AboutUs'
+import Sellsomething from './pages/SellSomething'
 function App() {
   return (
     <div>
@@ -20,7 +21,8 @@ function App() {
         <Route path='/register' element={<Register/>}/> 
         <Route path='/forgot-password' element={<ForgotPassword/>}/> 
         <Route path='/terms' element={<TermsOfUse/>}/> 
-        <Route path='/about-us' element={<AboutUs/>}/> 
+        <Route path='/about-us' element={<AboutUs/>}/>
+        <Route path='/post' element={<Sellsomething/>}/>
         {/* <Route path="/post/:id" element={<PostForm />} />  */}
         {/* <Route path="/ProfilePage/:id" element={<ProfilePage />} />  */}
         {/* i have to put the right /post path here*/}
