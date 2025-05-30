@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PhoneInput from "./phonenumber2";
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ALGERIAN_BALADIATES = [
   "Algiers",
@@ -37,6 +38,7 @@ function ContactForm() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   type SocialPlatform = "facebook" | "instagram" | "whatsapp";
 
@@ -153,6 +155,7 @@ function ContactForm() {
 
       const data = await response.json();
       alert("Product posted successfully!");
+      navigate("/");
 
       // Reset form
       setName("");

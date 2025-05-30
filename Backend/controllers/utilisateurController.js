@@ -1,8 +1,9 @@
-const Utilisateur = require('../models/utilisateur');
 const bcrypt = require('bcrypt');
+const Utilisateur = require('../models/utilisateur');
 const Produit = require('../models/produit');
 const Notification = require('../models/notification');
 const Message = require('../models/message');
+const Pharmacie = require('../models/pharmacie');
 
 // Fonctions existantes pour les utilisateurs normaux
 exports.obtenirProfil = async (req, res) => {
@@ -264,5 +265,40 @@ exports.signalerMessage = async (req, res) => {
             success: true,
             message: "Signalement envoyé."
         });
-    }
+    };};
+    exports.getAdminDashboardStats = async(req, res) => {
+    try {
+        // Vérifier que l'utilisateur est admin
+        if (req.user.role !== 'Admin') {
+            return res.status(403).json({ message: "Accès non autorisé" });
+        }
+
+        // Récupérer toutes les statistiques
+        const stats = {
+            totalProduits: await Produit.countDocuments(),
+            totalUtilisateurs: await Utilisateur.countDocuments(),
+            totalPharmacies: await Pharmacie.countDocuments(),
+            utilisateursByRole: await Utilisateur.aggregate([{
+                $group: {
+                    _id: "$role",
+                    count: { $sum: 1 }
+                }
+            }]),
+            pharmaciesByWilaya: await Pharmacie.aggregate([{
+                $group: {
+                    _id: "$wilaya",
+                    count: { $sum: 1 }
+                }
+            }])
+        };
+
+        res.status(200).json(stats);
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).json({
+            message: "Erreur lors de la récupération des statistiques",
+            error: error.message
+        });
+    };
 };
+    

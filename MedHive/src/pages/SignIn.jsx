@@ -163,67 +163,68 @@ function SignIn() {
     }
   }, [navigate]);
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+ const handleSignIn = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+  try {
+    console.log('Données envoyées:', { email, motDePasse: password });
+
+    const response = await fetch('http://localhost:5000/api/auth/connexion', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ email, motDePasse: password }), 
+    });
+
+    const responseText = await response.text();
+    console.log('Réponse brute:', responseText);
+
+    let data;
     try {
-      console.log('Données envoyées:', { email, motDePasse: password });
-      
-      const response = await fetch('http://localhost:5000/api/auth/connexion', { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({ email, motDePasse: password }), 
-      });
-      
-      // Capturer le texte brut de la réponse
-      const responseText = await response.text();
-      console.log('Réponse brute:', responseText);
-      
-      // Tenter de parser en JSON
-      let data;
-      try {
-        data = JSON.parse(responseText);
-        console.log('Données JSON:', data);
-      } catch (e) {
-        console.error('Impossible de parser en JSON:', e);
-        setError("Réponse du serveur invalide");
-        setLoading(false);
-        return;
-      }
-      
-      if (!response.ok) {
-        setError(data.message || 'Connexion échouée');
-        setLoading(false);
-        return;
-      }
-      
-    
-    login(data.token, data.user);
-    
-      
-      //Verifier valide?
-      if (data.user && data.user.role === 'Pharmacien' && data.user.compteValide === false) {
-        alert('Votre compte est en attente de validation par un administrateur.');
-      } else {
-        alert('Connexion réussie ! 🎉');
-      }
-      
-      navigate('/');
-    } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
-      setError("Une erreur s'est produite lors de la connexion. Vérifiez votre connexion internet.");
-    } finally {
+      data = JSON.parse(responseText);
+      console.log('Données JSON:', data);
+    } catch (e) {
+      console.error('Impossible de parser en JSON:', e);
+      setError("Réponse du serveur invalide");
       setLoading(false);
+      return;
     }
-    const token = localStorage.getItem("token");
-    console.log(typeof token); 
-   
-console.log(token); 
-  };
+
+    if (!response.ok) {
+      setError(data.message || 'Connexion échouée');
+      setLoading(false);
+      return;
+    }
+
+    login(data.token, data.user);
+
+    // Vérifier le rôle et rediriger en conséquence
+    if (data.user && data.user.role === 'Pharmacien' && data.user.compteValide === false) {
+      alert('Votre compte est en attente de validation par un administrateur.');
+    } else if (data.user && data.user.role === 'Admin') {
+      alert('Connexion admin réussie ! 🎉');
+      navigate('/Dashboard'); // 👉 redirect to dashboard if admin
+      return; // stop execution to prevent continuing
+    } else {
+      alert('Connexion réussie ! 🎉');
+      navigate('/'); // redirect standard users
+    }
+
+  } catch (error) {
+    console.error('Erreur lors de la connexion:', error);
+    setError("Une erreur s'est produite lors de la connexion. Vérifiez votre connexion internet.");
+  } finally {
+    setLoading(false);
+  }
+
+  const token = localStorage.getItem("token");
+  console.log(typeof token);
+  console.log(token);
+};
+
   
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100"> 

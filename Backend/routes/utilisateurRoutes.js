@@ -33,7 +33,8 @@ router.get('/admin/notifications', verifierRole(['Admin']), (req, res, next) => 
 
 router.put('/admin/notifications/:id/lue', verifierRole(['Admin']), (req, res, next) => {
     controller.gestionAdmin.marquerNotificationLue(req, res).catch(next);
-});
+}); 
+router.get('/admin/dashboard-stats', authentifierUtilisateur, verifierRole(['Admin']), controller.getAdminDashboardStats);
 
 
 
