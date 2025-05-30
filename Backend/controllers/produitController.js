@@ -44,6 +44,7 @@ const upload = multer({
 
 // Ajouter un produit avec support de téléchargement d'image
 exports.ajouterProduit = async(req, res) => {
+     console.log('Body reçu :', req.body);
     try {
         const { nom, description, prix } = req.body;
 
