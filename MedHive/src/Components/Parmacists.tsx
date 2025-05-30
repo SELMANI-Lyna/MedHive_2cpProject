@@ -3,8 +3,10 @@ import Buttonwithoutmargin from "./Buttonwithoutmargin";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_URL = "http://localhost:5000/api/utilisateur/admin/pharmaciens/demandes";
-const PHARMACIST_BASE_URL = "http://localhost:5000/api/utilisateur/admin/pharmaciens";
+const API_URL =
+  "http://localhost:5000/api/utilisateur/admin/pharmaciens/demandes";
+const PHARMACIST_BASE_URL =
+  "http://localhost:5000/api/utilisateur/admin/pharmaciens";
 
 interface Pharmacist {
   id: string;
@@ -48,9 +50,9 @@ export default function PharmacistList() {
       });
 
       if (!response.ok) throw new Error("Failed to fetch pharmacists");
-      
+
       const data = await response.json();
-      
+
       const mappedData = data.map((pharmacy: any) => ({
         id: pharmacy._id,
         name: pharmacy.nom,
@@ -68,14 +70,19 @@ export default function PharmacistList() {
     }
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     fetchPharmacists();
   }, [refreshTrigger]);
 
-  const updateStatus = async (id: string, newStatus: "approved" | "declined") => {
+  const updateStatus = async (
+    id: string,
+    newStatus: "approved" | "declined"
+  ) => {
     try {
-      const endpoint = `${PHARMACIST_BASE_URL}/${id}/${newStatus === "approved" ? "valider" : "decliner"}`;
-      
+      const endpoint = `${PHARMACIST_BASE_URL}/${id}/${
+        newStatus === "approved" ? "valider" : "decliner"
+      }`;
+
       const response = await fetch(endpoint, {
         method: "PUT",
         headers: {
@@ -89,25 +96,31 @@ export default function PharmacistList() {
         throw new Error(`Failed to ${newStatus} pharmacist`);
       }
 
-      setPharmacists(prev =>
-        prev.map(p => p.id === id ? { ...p, status: newStatus } : p)
+      setPharmacists((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, status: newStatus } : p))
       );
-      
+
       toast.success(`Pharmacist ${newStatus} successfully!`);
-      setRefreshTrigger(prev => !prev); // Trigger data refresh
+      setRefreshTrigger((prev) => !prev); // Trigger data refresh
     } catch (error) {
       console.error(`Error ${newStatus} pharmacist:`, error);
-      toast.error(`Failed to ${newStatus} pharmacist: ${error instanceof Error ? error.message : "Unknown error"}`);
+      toast.error(
+        `Failed to ${newStatus} pharmacist: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   };
 
   if (loading) {
     return (
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        padding: "40px" 
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "40px",
+        }}
+      >
         <div className="spinner"></div>
       </div>
     );
@@ -127,7 +140,9 @@ export default function PharmacistList() {
         }}
       >
         <thead>
-          <tr style={{ background: "#BBBBBB", color: "white", textAlign: "left" }}>
+          <tr
+            style={{ background: "#BBBBBB", color: "white", textAlign: "left" }}
+          >
             <th style={{ padding: "12px" }}>Name</th>
             <th style={{ padding: "12px" }}>Email</th>
             <th style={{ padding: "12px" }}>License</th>
@@ -137,13 +152,13 @@ export default function PharmacistList() {
         </thead>
         <tbody>
           {pharmacists.map(({ id, name, email, license, status }) => (
-            <tr 
-              key={id} 
-              style={{ 
-                borderBottom: "1px solid #ddd", 
-                padding: "10px", 
+            <tr
+              key={id}
+              style={{
+                borderBottom: "1px solid #ddd",
+                padding: "10px",
                 textAlign: "left",
-                backgroundColor: status === "pending" ? "#fff9e6" : "inherit"
+                backgroundColor: status === "pending" ? "#fff9e6" : "inherit",
               }}
             >
               <td style={{ padding: "12px" }}>{name}</td>
@@ -156,36 +171,39 @@ export default function PharmacistList() {
                   disabled={!license}
                 />
               </td>
-              <td style={{ 
-                padding: "12px", 
-                textAlign: "center", 
-                fontWeight: "bold", 
-                color: status === "approved" 
-                  ? "green" 
-                  : status === "declined" 
-                  ? "red" 
-                  : "orange"
-              }}>
+              <td
+                style={{
+                  padding: "12px",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color:
+                    status === "approved"
+                      ? "green"
+                      : status === "declined"
+                      ? "red"
+                      : "orange",
+                }}
+              >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </td>
               <td style={{ padding: "12px", display: "flex", gap: "10px" }}>
                 <Buttonwithoutmargin
                   text="Approve"
                   onClick={() => updateStatus(id, "approved")}
-                  style={{ 
-                    ...buttonStyles.base, 
+                  style={{
+                    ...buttonStyles.base,
                     ...buttonStyles.approve,
-                    opacity: status === "approved" ? 0.6 : 1
+                    opacity: status === "approved" ? 0.6 : 1,
                   }}
                   disabled={status === "approved"}
                 />
                 <Buttonwithoutmargin
                   text="Decline"
                   onClick={() => updateStatus(id, "declined")}
-                  style={{ 
-                    ...buttonStyles.base, 
+                  style={{
+                    ...buttonStyles.base,
                     ...buttonStyles.decline,
-                    opacity: status === "declined" ? 0.6 : 1
+                    opacity: status === "declined" ? 0.6 : 1,
                   }}
                   disabled={status === "declined"}
                 />
