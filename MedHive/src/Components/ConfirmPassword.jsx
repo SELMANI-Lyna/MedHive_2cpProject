@@ -56,3 +56,4 @@ function ConfirmPassword({onPasswordChange, setIsValid }) {
 }
 
 export default ConfirmPassword
+

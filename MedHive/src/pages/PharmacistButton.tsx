@@ -1,4 +1,4 @@
-import Adminsidebar from "../Components/Adminsidebar";
+import Adminsidebar from "../components/Adminsidebar";
 import Pharmacists from "../Components/Parmacists";
 
 const PharmacistButton = () => {

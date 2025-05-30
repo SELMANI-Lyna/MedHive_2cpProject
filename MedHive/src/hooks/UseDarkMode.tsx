@@ -11,10 +11,10 @@ const useDarkMode = () => {
   useEffect(() => {
     const root = document.documentElement;
     if (enabled) {
-      root.classList.add("dark"); // add dark when enabled is true
+      root.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      root.classList.remove("dark"); // remove dark when enabled is false
+      root.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
   }, [enabled]);

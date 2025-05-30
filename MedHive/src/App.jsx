@@ -19,7 +19,6 @@ import Dashboard from "./pages/Dashboard";
 import TeamPage from "./pages/TeamPage";
 import PharmacistsButton from "./pages/PharmacistButton";
 import RepportedMesseges from "./pages/RepportedMesseges";
-
 function App() {
    const [darkMode] = useDarkMode();
   return (

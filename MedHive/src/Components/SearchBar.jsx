@@ -16,7 +16,7 @@ function SearchBar({ onSearch }) {
   };
  
   return (
-    <div className="flex flex-row items-center justify-between max-w-md min-w-md mx-auto border-2 border-green-600 rounded-full mt-2 mb-4">
+    <div className=" flex flex-row items-center justify-between max-w-md min-w-md mx-auto border-2 border-green-600 rounded-full mt-2 mb-4">
       <input
         type="text"
         placeholder="Search products..."

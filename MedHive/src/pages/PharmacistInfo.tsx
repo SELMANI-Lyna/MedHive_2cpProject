@@ -80,7 +80,7 @@ const PharmacistInfo: React.FC<{ userData: any; pharmacyData: any }> = ({
           <label className={labelClass}>Location</label>
           <input
             type="text"
-            value={userData?.localisation || "TIZI OUZOU-VILLE"}
+            value={userData?.localisation || "Bejaia-VILLE"}
             className={inputClass}
             readOnly
           />
