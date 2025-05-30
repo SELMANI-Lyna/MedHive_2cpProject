@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../Components/RpptMsg";
-import Adminsidebar from "../components/Adminsidebar";
+import Adminsidebar from "../Components/Adminsidebar";
 import SearchBar from "../components/Searchbaradmin";
 
 import NotificationButton from "../components/Notifications";
