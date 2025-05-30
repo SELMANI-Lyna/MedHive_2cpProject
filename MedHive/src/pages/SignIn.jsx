@@ -201,13 +201,9 @@ function SignIn() {
         return;
       }
       
-      //stock token et infos user
-      localStorage.setItem('token', data.token);
-      
-      // Si l'API renvoie des informations utilisateur, les stocker également
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-      }
+    
+    login(data.token, data.user);
+    
       
       //Verifier valide?
       if (data.user && data.user.role === 'Pharmacien' && data.user.compteValide === false) {
@@ -215,7 +211,7 @@ function SignIn() {
       } else {
         alert('Connexion réussie ! 🎉');
       }
-      login(data.token);
+      
       navigate('/');
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
@@ -223,10 +219,14 @@ function SignIn() {
     } finally {
       setLoading(false);
     }
+    const token = localStorage.getItem("token");
+    console.log(typeof token); 
+   
+console.log(token); 
   };
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-white"> 
+    <div className="min-h-screen flex items-center justify-center bg-gray-100"> 
       <div className="max-w-4xl mx-auto my-20 flex flex-col md:flex-row gap-20 p-4 md:p-8 bg-white rounded-2xl shadow-md w-full">
 
         <div className="flex-1 basis-1/2 flex flex-col justify-center items-center">

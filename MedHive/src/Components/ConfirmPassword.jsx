@@ -1,10 +1,11 @@
 import { useState } from "react";
 import InputField from "./InputField";
+
 function ConfirmPassword({onPasswordChange, setIsValid }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
+  
   const handleValidation = () => {
     if (password && confirmPassword && password !== confirmPassword) {
       setError("Passwords do not match!");
@@ -17,37 +18,38 @@ function ConfirmPassword({onPasswordChange, setIsValid }) {
       if (setIsValid) setIsValid(true);
     }
   };
+  
   return (
     <div>
-      
-        <InputField
+      <InputField
         label={"Password"}
         type="password"
         placeholder="enter password"
         value={password}
-        onChange={(e) => {setPassword(e.target.value)
+        onChange={(e) => {
+          const newPassword = e.target.value;
+          setPassword(newPassword);
           if (onPasswordChange) {
-            onPasswordChange(password);
+            onPasswordChange(newPassword);
           }
-         } }
+        }}
         onBlur={handleValidation}
         className="text-gray-400"
         required={true}
         showToggle={true}/>
-        
-        <InputField
+       
+      <InputField
         label={"Confirm password"}
         type="password"
         placeholder="confirm your password"
         value={confirmPassword}
         onChange={(e) => {
-            setConfirmPassword(e.target.value); 
-          }}
+          setConfirmPassword(e.target.value);
+        }}
         onBlur={handleValidation}
         className="text-gray-400"
         required={true}
         showToggle={true}/>
-
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>
   )

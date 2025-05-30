@@ -4,7 +4,8 @@ import useDarkMode from "./hooks/UseDarkMode";
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
-import Footer from './Components/Footerco';
+
+import Footer from './Components/Footer';
 import ValidationPh from './pages/ValidationPh';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -18,6 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import TeamPage from "./pages/TeamPage";
 import PharmacistsButton from "./pages/PharmacistButton";
 import RepportedMesseges from "./pages/RepportedMesseges";
+
 function App() {
    const [darkMode] = useDarkMode();
   return (
@@ -48,6 +50,7 @@ function App() {
 
      <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/TeamPage" element={<TeamPage />} />
+  
 
           
       </Routes>

@@ -69,9 +69,22 @@ const ParametersPage: React.FC<{ userData?: Partial<FormData> }> = ({
     }
 
     try {
+      // Construire le payload à envoyer, sans currentPassword ni confirmPassword
+      const payload: any = {
+        username: formData.username,
+        facebook: formData.facebook,
+        instagram: formData.instagram,
+        linkedin: formData.linkedin,
+        telephone: formData.telephone,
+      };
+
+      if (formData.newPassword) {
+        payload.newPassword = formData.newPassword;
+      }
+
       const response = await axios.put(
         "http://localhost:5000/api/utilisateur/profil",
-        formData,
+        payload,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

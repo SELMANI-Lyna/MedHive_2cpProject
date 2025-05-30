@@ -106,7 +106,7 @@ function SignUp() {
         }
       
 
-        login();
+         login(data.token, data.user);
         console.log("Success:", data);
         alert("Sign up successfully! 🎉");
         await navigate('/'); // Ensuring smooth navigation post-signup
@@ -114,6 +114,10 @@ function SignUp() {
         console.error("Network error:", error);
         alert(`Error: ${error.message}`);
     }
+    const token = localStorage.getItem("token");
+    console.log(typeof token); 
+   
+console.log(token); 
   };
 
   return (
