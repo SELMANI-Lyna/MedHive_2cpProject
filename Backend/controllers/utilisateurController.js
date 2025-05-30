@@ -1,4 +1,5 @@
 const Utilisateur = require('../models/utilisateur');
+const bcrypt = require('bcrypt');
 const Produit = require('../models/produit');
 const Notification = require('../models/notification');
 const Message = require('../models/message');
@@ -174,17 +175,33 @@ validerPharmacien: async (req, res) => {
 
 // Fonctions existantes de mise à jour/suppression
 exports.mettreAJourUtilisateur = async (req, res) => {
-    try {
-        const utilisateur = await Utilisateur.findByIdAndUpdate(
-            req.user.id,
-            req.body,
-            { new: true }
-        ).select('-motDePasse');
-        if (!utilisateur) return res.status(404).json({ message: "Utilisateur non trouvé" });
-        res.json({ message: "Profil mis à jour", utilisateur });
-    } catch (error) {
-        res.status(500).json({ message: "Erreur serveur" });
+  try {
+    const data = { ...req.body };
+
+    // Si le mot de passe est fourni, on le hash avant la mise à jour
+    if (data.newPassword) {
+      const salt = await bcrypt.genSalt(10);
+      data.motDePasse = await bcrypt.hash(data.newPassword, salt);
+
+      // On supprime les champs de mot de passe en clair pour éviter confusion
+      delete data.newPassword;
+      delete data.confirmPassword;
     }
+
+    // Mettre à jour avec le mot de passe hashé si nécessaire
+    const utilisateur = await Utilisateur.findByIdAndUpdate(
+      req.user.id,
+      data,
+      { new: true }
+    ).select('-motDePasse');
+
+    if (!utilisateur) return res.status(404).json({ message: "Utilisateur non trouvé" });
+
+    res.json({ message: "Profil mis à jour", utilisateur });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
 };
 
 exports.supprimerUtilisateur = async (req, res) => {

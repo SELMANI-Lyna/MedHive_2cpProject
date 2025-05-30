@@ -58,6 +58,24 @@ const utilisateurSchema = new Schema({
     type: String,
     trim: true
   },
+
+  // Nouveaux champs réseaux sociaux / contacts
+  facebook: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  instagram: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  linkedin: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
   photoProfil: {
     type: String,
     trim: true,
@@ -97,6 +115,3 @@ utilisateurSchema.index({ nomPharmacie: 'text' });
 // Create and export the model
 const Utilisateur = mongoose.model('Utilisateur', utilisateurSchema);
 module.exports = Utilisateur;
-
-
-
