@@ -10,10 +10,9 @@ const PHARMACIST_BASE_URL =
 
 interface Pharmacist {
   id: string;
-  name: string;
+  username: string;
   email: string;
-  license: string;
-  status: "pending" | "approved" | "declined";
+  compteValide: boolean;
 }
 
 const buttonStyles = {
@@ -30,9 +29,6 @@ const buttonStyles = {
   },
   decline: {
     backgroundColor: "#E63946",
-  },
-  viewFile: {
-    backgroundColor: "#08D37E",
   },
 };
 
@@ -53,12 +49,11 @@ export default function PharmacistList() {
 
       const data = await response.json();
 
-      const mappedData = data.map((pharmacy: any) => ({
-        id: pharmacy._id,
-        name: pharmacy.nom,
-        email: pharmacy.proprietaire?.email || "N/A",
-        license: pharmacy.licenseFile || "/default-license.pdf",
-        status: pharmacy.compteValide ? "approved" : "pending",
+      const mappedData = data.map((pharmacist: any) => ({
+        id: pharmacist._id,
+        username: pharmacist.username,
+        email: pharmacist.email,
+        compteValide: pharmacist.compteValide,
       }));
 
       setPharmacists(mappedData);
@@ -79,29 +74,26 @@ export default function PharmacistList() {
     newStatus: "approved" | "declined"
   ) => {
     try {
-      const endpoint = `${PHARMACIST_BASE_URL}/${id}/${
-        newStatus === "approved" ? "valider" : "decliner"
-      }`;
-
-      const response = await fetch(endpoint, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to ${newStatus} pharmacist`);
+      if (newStatus === "approved") {
+        const response = await fetch(`${PHARMACIST_BASE_URL}/${id}/valider`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!response.ok) throw new Error("Failed to approve pharmacist");
+      } else {
+        const response = await fetch(`${PHARMACIST_BASE_URL}/${id}/refuser`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!response.ok) throw new Error("Failed to decline pharmacist");
       }
 
-      setPharmacists((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, status: newStatus } : p))
-      );
-
       toast.success(`Pharmacist ${newStatus} successfully!`);
-      setRefreshTrigger((prev) => !prev); // Trigger data refresh
+      setRefreshTrigger((prev) => !prev);
     } catch (error) {
       console.error(`Error ${newStatus} pharmacist:`, error);
       toast.error(
@@ -145,46 +137,32 @@ export default function PharmacistList() {
           >
             <th style={{ padding: "12px" }}>Name</th>
             <th style={{ padding: "12px" }}>Email</th>
-            <th style={{ padding: "12px" }}>License</th>
             <th style={{ padding: "12px" }}>Status</th>
             <th style={{ padding: "12px" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {pharmacists.map(({ id, name, email, license, status }) => (
+          {pharmacists.map(({ id, username, email, compteValide }) => (
             <tr
               key={id}
               style={{
                 borderBottom: "1px solid #ddd",
                 padding: "10px",
                 textAlign: "left",
-                backgroundColor: status === "pending" ? "#fff9e6" : "inherit",
+                backgroundColor: !compteValide ? "#fff9e6" : "inherit",
               }}
             >
-              <td style={{ padding: "12px" }}>{name}</td>
+              <td style={{ padding: "12px" }}>{username}</td>
               <td style={{ padding: "12px" }}>{email}</td>
-              <td style={{ padding: "12px" }}>
-                <Buttonwithoutmargin
-                  text="📄 View File"
-                  onClick={() => window.open(license, "_blank")}
-                  style={{ ...buttonStyles.base, ...buttonStyles.viewFile }}
-                  disabled={!license}
-                />
-              </td>
               <td
                 style={{
                   padding: "12px",
                   textAlign: "center",
                   fontWeight: "bold",
-                  color:
-                    status === "approved"
-                      ? "green"
-                      : status === "declined"
-                      ? "red"
-                      : "orange",
+                  color: compteValide ? "green" : "orange",
                 }}
               >
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+                {compteValide ? "Approved" : "Pending"}
               </td>
               <td style={{ padding: "12px", display: "flex", gap: "10px" }}>
                 <Buttonwithoutmargin
@@ -193,9 +171,9 @@ export default function PharmacistList() {
                   style={{
                     ...buttonStyles.base,
                     ...buttonStyles.approve,
-                    opacity: status === "approved" ? 0.6 : 1,
+                    opacity: compteValide ? 0.6 : 1,
                   }}
-                  disabled={status === "approved"}
+                  disabled={compteValide}
                 />
                 <Buttonwithoutmargin
                   text="Decline"
@@ -203,9 +181,7 @@ export default function PharmacistList() {
                   style={{
                     ...buttonStyles.base,
                     ...buttonStyles.decline,
-                    opacity: status === "declined" ? 0.6 : 1,
                   }}
-                  disabled={status === "declined"}
                 />
               </td>
             </tr>

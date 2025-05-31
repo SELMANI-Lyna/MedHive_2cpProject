@@ -36,22 +36,18 @@ const ProfilePage: React.FC = () => {
 
   const handleButtonClick = (button: string) => {
     setSelectedButton(button);
-    if (button === "posts" || button === "saved") {
-      setShowInfo(false);
-      setShowParameters(false);
-    }
+    setShowInfo(button === "info");
+    setShowParameters(button === "parameters");
   };
 
-  // 🟢 Centralized nav button styles
   const buttonClasses = (key: string) =>
     `w-[62%] flex items-center gap-x-2 text-left px-4 py-3 rounded-lg 
-     dark:bg-black  transition-all ${
+     dark:bg-black transition-all ${
        selectedButton === key
-         ? "bg-[#BCE3CC] dark:border-[#BCE3CC] " // Set background to #BCE3CC for selected button
-         : "hover:bg-[#BCE3CC]" // Light hover effect
+         ? "bg-[#BCE3CC] dark:border-[#BCE3CC]"
+         : "hover:bg-[#BCE3CC]"
      }`;
 
-  // Vérifier si l'utilisateur connecté est celui affiché dans le profil
   const isOwnProfile = currentUser?._id === userData?._id;
 
   return (
@@ -91,16 +87,9 @@ const ProfilePage: React.FC = () => {
                 </p>
               </div>
             </div>
+
             {/* Nav Buttons */}
             <nav className="mt-6 space-y-3 w-full px-4">
-              <button
-                onClick={() => handleButtonClick("posts")}
-                className={buttonClasses("posts")}
-              >
-                <img src="/Images/Frame1.png" alt="Posts" className="w-5 h-5" />
-                My Posts
-              </button>
-
               <button
                 onClick={() => {
                   setShowInfo(true);
@@ -130,14 +119,6 @@ const ProfilePage: React.FC = () => {
                   Parameters
                 </button>
               )}
-
-              <button
-                onClick={() => handleButtonClick("saved")}
-                className={buttonClasses("saved")}
-              >
-                <img src="/Images/Frame4.png" alt="Saved" className="w-5 h-5" />
-                Saved
-              </button>
             </nav>
           </div>
 

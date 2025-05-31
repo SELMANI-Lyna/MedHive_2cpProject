@@ -58,16 +58,6 @@ const VendeurInfo: React.FC<{ userData: any; pharmacyData: any }> = ({
             </span>
           </div>
         </div>
-
-        <div className="col-span-2">
-          <label className={labelClass}>Location</label>
-          <input
-            type="text"
-            value={userData?.localisation || "Tizi Ouzou - Ville"}
-            className={inputClass}
-            readOnly
-          />
-        </div>
       </div>
 
       {/* Contacts */}

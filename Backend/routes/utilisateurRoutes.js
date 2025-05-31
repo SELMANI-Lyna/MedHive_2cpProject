@@ -25,6 +25,10 @@ router.get('/admin/pharmaciens/demandes', verifierRole(['Admin']), (req, res, ne
 router.put('/admin/pharmaciens/:id/valider', verifierRole(['Admin']), (req, res, next) => {
     controller.gestionAdmin.validerPharmacien(req, res).catch(next);
 });
+router.delete('/admin/pharmaciens/:id/refuser', verifierRole(['Admin']), (req, res, next) => {
+    controller.gestionAdmin.refuserPharmacien(req, res).catch(next);
+});
+
 
 // Routes admin pour les notifications et signalements
 router.get('/admin/notifications', verifierRole(['Admin']), (req, res, next) => {

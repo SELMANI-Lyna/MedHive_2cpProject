@@ -15,7 +15,7 @@ const TeamPage = () => {
         <div>
           <SearchBar />
           <NotificationButton />
-          <Adminprofile adminName="yass" adminEmail="yass@estin.dz" />
+          <Adminprofile adminName="team" adminEmail="teamMedHive@estin.dz" />
         </div>
 
         {/* Main Content */}

@@ -38,7 +38,7 @@ const LogChatbot: React.FC = () => {
             </button>
           </Link>
 
-          <Link to="/sign-up">
+          <Link to="/register">
             <button className="w-full bg-white dark:bg-[#2A2A2A] text-[#0DD15F] border border-[#FFFFFF] dark:border-gray-600 font-bold py-2 px-4 rounded-md shadow-lg hover:bg-[#0DD15F] hover:text-white transition">
               Sign up
             </button>

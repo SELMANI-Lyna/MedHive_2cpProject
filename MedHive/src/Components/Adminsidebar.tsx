@@ -4,9 +4,14 @@ import { MdReport } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import Button from "./Button2";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/AuthContext";
 
 export default function AdminHeader() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user ? user._id : null;
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
   return (
     <div className="p-4">
       <div
@@ -44,6 +49,7 @@ export default function AdminHeader() {
             {
               icon: <FaHome style={{ marginRight: "5mm" }} />,
               text: "Overview",
+              path: "/Dashboard",
             },
             {
               icon: <FaUser style={{ marginRight: "5mm" }} />,
@@ -64,7 +70,10 @@ export default function AdminHeader() {
               text: "Team",
               path: "/TeamPage",
             },
-            { icon: <FaUser style={{ marginRight: "5mm" }} />, text: "Users" },
+            {
+              icon: <FaUser style={{ marginRight: "5mm" }} />,
+              text: "Users",
+            },
           ].map((item, index) => (
             <div key={index} style={{ marginBottom: "30px" }}>
               <Button
@@ -100,11 +109,11 @@ export default function AdminHeader() {
             <Button
               text={
                 <span className="flex items-center">
-                  <FaCog style={{ marginLeft: "-20mm" }} />
+                  <FaCog style={{ marginLeft: "-20mm", marginRight: "5mm" }} />
                   Settings
                 </span>
               }
-              onClick={() => console.log("Settings clicked")}
+              onClick={() => navigate(`/ProfilePage/${userId}`)}
               className="bg-blue-500 text-white px-4 py-2 w-full hover:bg-blue-600 active:bg-yellow-400 transition duration-200"
               width="200px"
               height="50px"
@@ -127,8 +136,8 @@ export default function AdminHeader() {
                 </span>
               }
               onClick={() => {
-                localStorage.removeItem("token"); // Or whatever you use for auth
-                navigate("/"); // Or navigate("/login") if you have a login page
+                logout();
+                navigate("/");
               }}
               className="bg-red-500 text-white px-4 py-2 w-full hover:bg-red-600 transition duration-200"
               width="200px"

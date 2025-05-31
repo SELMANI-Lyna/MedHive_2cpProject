@@ -99,8 +99,19 @@ validerPharmacien: async (req, res) => {
             res.status(500).json({ message: "Erreur serveur", error });
         }
     },
+    refuserPharmacien: async (req, res) => {
+    try {
+        const pharmacien = await Utilisateur.findByIdAndDelete(req.params.id);
+        if (!pharmacien) return res.status(404).json({ message: "Pharmacien non trouvé" });
 
-    // Messages signalés
+        res.json({ message: "Pharmacien refusé et supprimé du système." });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur serveur", error });
+    }
+},
+
+
+   
 
 
     traiterSignalement: async (req, res) =>{
