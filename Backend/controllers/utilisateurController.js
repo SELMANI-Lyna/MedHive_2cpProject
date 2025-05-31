@@ -31,7 +31,19 @@ exports.gestionAdmin = {
 
 
 
-   
+ obtenirDemandesPharmaciens: async (req, res) => {
+    try {
+        const pharmaciens = await Utilisateur.find({ 
+            role: "Pharmacien", 
+            compteValide: false 
+        }).select('-motDePasse');
+
+        res.json(pharmaciens);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des demandes pharmaciens:", error);
+        res.status(500).json({ message: "Erreur serveur", error });
+    }
+},  
 
     // Pharmaciens
 obtenirNotifications: async (req, res) => {
