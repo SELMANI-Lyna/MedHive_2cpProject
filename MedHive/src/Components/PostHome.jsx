@@ -18,10 +18,7 @@ function PostHome({ imageSrc, product, price, description, id, onDelete, vendeur
   };
 
   //Modifier
-  const handleEdit = (e) => {
-    e.stopPropagation();
-    navigate(`/post/${id}`);
-  };
+  
   
   const handleUser = (e) => {
     e.stopPropagation();
@@ -152,13 +149,7 @@ function PostHome({ imageSrc, product, price, description, id, onDelete, vendeur
             {/*Btns pour les users auth uniqmnt */}
             {isAuthenticated && (
               <>
-                <button
-                  className="hover:bg-blue-100 p-1.5 rounded-full transition"
-                  title="Modifier"
-                  onClick={handleEdit}
-                >
-                  <i className="fa-solid fa-pen-to-square text-blue-500 text-sm"></i>
-                </button>
+              
                 <button
                   className="hover:bg-red-100 p-1.5 rounded-full transition"
                   title="Supprimer"
@@ -227,13 +218,7 @@ function PostHome({ imageSrc, product, price, description, id, onDelete, vendeur
                 
                 {isAuthenticated && (
                   <>
-                    <button 
-                      className="px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg flex items-center gap-2 transition"
-                      onClick={handleEdit}
-                    >
-                      <i className="fa-solid fa-pen-to-square text-blue-500"></i>
-                      <span>Modifier</span>
-                    </button>
+                  
                     <button 
                       className="px-4 py-2 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-2 transition"
                       onClick={handleDelete}

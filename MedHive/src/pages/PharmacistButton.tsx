@@ -3,12 +3,15 @@ import Pharmacists from "../Components/Parmacists";
 
 const PharmacistButton = () => {
   return (
-    <div className="flex p-8">
-      <div className="flex-1 ml-8">
-        <Pharmacists />
-
+    <div className="flex p-4">
+      {/* Sidebar on the left */}
+      <div className="w-90">
         <Adminsidebar />
-        {/* Add other content here */}
+      </div>
+
+      {/* Main content area on the right */}
+      <div className="flex-1 mr-110">
+        <Pharmacists />
       </div>
     </div>
   );

@@ -131,8 +131,7 @@ const Chatbot: React.FC = () => {
 
       {/* Disclaimer */}
       <p className="text-xs text-gray-500 text-center mb-2">
-      
-         If symptoms persist or worsen,consult a doctor or a pharmacist
+        If symptoms persist or worsen , consult a doctor or a pharmacist.
       </p>
     </div>
   );

@@ -39,7 +39,7 @@ const Team: React.FC = () => {
         "https://i.pinimg.com/736x/24/91/0f/24910f726e8e849d73ba395a584181f0.jpg",
     },
     {
-      name: " Chettab Nazim",
+      name: "Chettab Nazim",
       role: "Admin",
       email: "n_chettab@estin.dz",
       image: "https://randomuser.me/api/portraits/men/51.jpg",
@@ -66,8 +66,13 @@ const Team: React.FC = () => {
             />
             <h3 className="text-center text-lg font-semibold">{member.name}</h3>
             <p className="text-center text-gray-500 text-sm">{member.role}</p>
-            <p className="text-center text-gray-400 text-xs mt-1">
-              {member.email}
+            <p className="text-center text-gray-500 text-sm mt-1">
+              <a
+                href={`mailto:${member.email}`}
+                className="text-gray-500 text-sm hover:underline"
+              >
+                {member.email}
+              </a>
             </p>
           </div>
         ))}
