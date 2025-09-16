@@ -1,6 +1,0 @@
-<<<<<<< HEAD
-once upon a time a new story
-=======
-once upon a time a new story
-the story was so long.....
->>>>>>> da343e30562b166ce7f9b0e0009ed5dac23e0b36
